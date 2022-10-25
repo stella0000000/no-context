@@ -1,11 +1,13 @@
-import logo from './logo.svg';
 import './App.css';
+import React from 'react';
+const logoPath = require('./logo.svg').default as string;
+console.log(logoPath);
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        <img src={logoPath} className="App-logo" alt="logo" />
         <p>
           words :)
         </p>
