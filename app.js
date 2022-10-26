@@ -1,24 +1,11 @@
 const express = require("express");
 const app = express();
 require('dotenv').config();
-
-// Imports the Google Cloud client library
 const language = require('@google-cloud/language');
-
-// const client = new language.LanguageServiceClient();
-// await client.initialize()
-const options = {
-  key: process.env.GOOGLE_API_KEY
-}
-
-// console.log(options.credentials)
-
 
 async function auth() {
   try {
-    const client = new language.LanguageServiceClient({
-      options
-    })
+    const client = new language.LanguageServiceClient()
     const text = 'Hello, world!';
     const document = {
       content: text,
