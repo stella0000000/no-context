@@ -1,8 +1,13 @@
 import React from 'react'
 
 const Google = () => {
-  const google = async () => {
-    const googleResponse = await fetch(`/google`)
+  const googleSentiment = async () => {
+    const googleResponse = await fetch(`/google_sentiment`)
+    console.log({ googleResponse })
+  }
+
+  const googleSyntax = async () => {
+    const googleResponse = await fetch(`/google_syntax`)
     console.log({ googleResponse })
   }
   
@@ -10,7 +15,8 @@ const Google = () => {
     <div>
       hi Google
 
-      <button onClick={() => google()}>google?</button>
+      <button onClick={() => googleSentiment()}>google sentiment</button>
+      <button onClick={() => googleSyntax()}>google syntax</button>
     </div>
   )
 }

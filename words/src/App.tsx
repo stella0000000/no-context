@@ -1,13 +1,13 @@
 import './App.css';
 import React from 'react';
-import Twitter from './components/Twitter';
+import Reddit from './components/Reddit';
 import Google from './components/Google';
 
 function App() {
 
   return (
     <div className="App">
-      <Twitter />
+      <Reddit />
       <Google />
     </div>
   );

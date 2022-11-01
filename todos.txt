@@ -1,0 +1,8 @@
+1. for a user input query get top 10 post (by relevance)
+2. filter out posts without image
+3. from filtered posts, get a random one
+4. from post, get title, image, and comments
+5. display image and/or title
+6. allow user to type a short response
+7. at submit, run both comments and user response through sentiment api and/or classification api
+8. display fun things
