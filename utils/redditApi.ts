@@ -1,4 +1,4 @@
-var snoowrap = require('snoowrap');
+let snoowrap = require('snoowrap');
 
 const r = new snoowrap({
   userAgent: 'chrome:words:0.0.1 (by u/stella0000000)',
@@ -7,9 +7,29 @@ const r = new snoowrap({
   refreshToken: process.env.REDDIT_REFRESH_TOKEN!,
 });
 
+async function getComments(postName:string) {
+  //.expandReplies({options:{depth:0}}).map((comment:any) => comment.body)
+  const result = await r.getSubmission(postName).expandReplies({options:{depth:0, limit:5}});
+  console.log(result)
+}
+
+
 export async function redditApi() {
   // r.getHot().map((post:any) => post.title).then(console.log);
-  const result = await r.search({query:"bikes", sort:'relevance', limit:5})
-  console.log(result);
+  const response = await r.search({query:"bikes", sort:'relevance', limit:10}).filter((submission:any) => submission.post_hint === 'image').map((submission:any) => {
+    return {
+      title:submission.title,
+      name:submission.name,
+      imageUrl:submission.url_overridden_by_dest,
+      };
+    })
+
+    const result = response[Math.floor(Math.random()*response.length)];
+    getComments(result.name)
+    return result
 }
+
+
+
+
 
