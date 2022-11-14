@@ -1,5 +1,3 @@
-import React from 'react'
-
 const Google = () => {
   const googleSentiment = async () => {
     const googleResponse = await fetch(`/google_sentiment`)

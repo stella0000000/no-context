@@ -1,19 +1,10 @@
 const language = require('@google-cloud/language');
 
-export async function googleSentimentApi() {
+export async function googleSentimentApi(story: string) {
   const client = new language.LanguageServiceClient();
-
-  const text = `They picked way among trees their ponies plodded
-  along carefully avoiding many writhing interlacing roots
-  There was no undergrowth ground was rising steadily
-  they went forward it seemed that trees became taller darker
-  thicker There was no sound except occasional drip moisture
-  falling through still leaves For moment there was no whispering movement among branches they all got uncomfortable feeling they were being watched disapproval deepening
-  to dislike even enmitye feeling steadily grew until they found
-  themselves looking up quickly glancing back over their shoulders
-  as if they expected sudden blow`
+  
   const document = {
-    content: text,
+    content: story,
     type: 'PLAIN_TEXT',
   };
 
@@ -21,9 +12,11 @@ export async function googleSentimentApi() {
   const [result] = await client.analyzeSentiment({document: document});
   const sentiment = result.documentSentiment;
 
-  console.log(`Text: ${text}`);
+  console.log(`Text: ${story}`);
   console.log(`Sentiment score: ${sentiment.score}`);
   console.log(`Sentiment magnitude: ${sentiment.magnitude}`);
+
+  return sentiment
 }
 
 export async function googleSyntaxApi() {

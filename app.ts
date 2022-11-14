@@ -5,13 +5,14 @@ import { googleSentimentApi, googleSyntaxApi } from './utils/googleApi';
 import { redditApi } from './utils/redditApi';
 
 app.get("/google_sentiment", async (req: any, res: any) => {
-  console.log("calling google sentiment");
+  const story = req.query.query
+
   try {
-    const response = await googleSentimentApi()
+    const response = await googleSentimentApi(story)
+    res.send(response)
   } catch(err) {
       console.log('error at google sentiment API call')
   }
-  res.redirect("/");
 });
 
 app.get("/google_syntax", async (req: any, res: any) => {
@@ -25,13 +26,14 @@ app.get("/google_syntax", async (req: any, res: any) => {
 });
 
 app.get("/reddit", async (req: any, res: any) => {
-    console.log("calling reddit");
+    const { query } = req.query
+
     try {
-      const response = await redditApi()
+      const response = await redditApi(query)
+      res.send(response)
     } catch(error) {
       console.log(error)
     }
-    res.redirect("/");
 });
   
 const PORT = process.env.PORT || 8080;

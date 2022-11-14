@@ -10,13 +10,13 @@ const r = new snoowrap({
 async function getComments(postName:string) {
   //.expandReplies({options:{depth:0}}).map((comment:any) => comment.body)
   const result = await r.getSubmission(postName).expandReplies({options:{depth:0, limit:5}});
-  console.log(result)
+  // console.log(result)
 }
 
 
-export async function redditApi() {
+export async function redditApi(query: string) {
   // r.getHot().map((post:any) => post.title).then(console.log);
-  const response = await r.search({query:"bikes", sort:'relevance', limit:10}).filter((submission:any) => submission.post_hint === 'image').map((submission:any) => {
+  const response = await r.search({query, sort:'relevance', limit:10}).filter((submission:any) => submission.post_hint === 'image').map((submission:any) => {
     return {
       title:submission.title,
       name:submission.name,
@@ -25,11 +25,7 @@ export async function redditApi() {
     })
 
     const result = response[Math.floor(Math.random()*response.length)];
-    getComments(result.name)
+    // console.log({ result })
+    // getComments(result.name)
     return result
 }
-
-
-
-
-
