@@ -9,24 +9,16 @@ const Wrapper = styled.div`
 `
 
 const Chatbox = () => {
-  const [messages, setMessages] = useState<Message[] | undefined>(undefined)
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      content: 'Welcome to No Context. We utilize Reddit’s API to find a random image post connected to your search. You can write a short, imaginative blurb about it, and we’ll analyze your story’s sentiment along with the top comment.',
+      actor: ACTOR.COMPUTER
+    }
+  ])
 
   useEffect(() => {
-    setMessages([
-      {
-        content: 'Welcome to No Context. We utilize Reddit’s API to find a random image post connected to your search. You can write a short, imaginative blurb about it, and we’ll analyze your story’s sentiment along with the top comment.',
-        actor: ACTOR.COMPUTER
-      },
-      {
-        content: 'hello', 
-        actor: ACTOR.HUMAN
-      },
-      {
-        content: 'bye',
-        actor: ACTOR.COMPUTER
-      },
-    ])
-  }, [])
+    // setMessages()
+  }, [messages])
 
   return (
     <Wrapper>
