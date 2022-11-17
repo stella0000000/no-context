@@ -48,7 +48,6 @@ function App() {
       const redditData: RedditData = await redditResponse.json()
       setRedditData(redditData)
       const message = { content: `Here's an image we found! ${redditData.imageUrl} What do you think?`, actor: ACTOR.COMPUTER }
-      console.log(redditData)
       setMessages(prevData => [...prevData, message])
     }
 
