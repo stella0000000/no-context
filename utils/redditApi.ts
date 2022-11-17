@@ -41,7 +41,6 @@ export async function redditApi(query: string) {
       };
     }) 
 
-    
     const result = response[Math.floor(Math.random()*response.length)];
     // console.log(result.submission)
     // console.log(result.name)

@@ -2,3 +2,25 @@
 in progress:
 M- get comments + flag
 S- prototype
+
+states:
+1. waiting for reddit input: "What topic shall we search?"
+    at submit => {
+        do reddit api call
+        if post is valid {
+            display post.image and go to state 2
+        } else {
+            ask for reddit input: "sorry, there was no post matching that topic"
+        }
+    }
+
+2. waiting for story input
+    at submit => {
+        do google api calls with story and comments from post
+        if error {
+            sorry, something went wrong
+        } else {
+            display/render sentiment
+            change to state 1
+        }
+    }
