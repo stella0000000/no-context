@@ -2,16 +2,16 @@ const express = require("express");
 const app = express();
 require('dotenv').config();
 import { googleSentimentApi } from './utils/googleApi';
-import { redditApi } from './utils/redditApi';
+import { getRedditData } from './utils/redditApi';
 
 app.get("/google_sentiment", async (req: any, res: any) => {
-  const story = req.query.query
+  const query = req.query.query
 
   try {
-    const response = await googleSentimentApi(story)
+    const response = await googleSentimentApi(query)
     res.send(response)
   } catch(err) {
-      console.log('error at google sentiment API call')
+      console.log(err)
   }
 });
 
@@ -19,10 +19,10 @@ app.get("/reddit", async (req: any, res: any) => {
     const { query } = req.query
 
     try {
-      const response = await redditApi(query)
+      const response = await getRedditData(query)
       res.send(response)
-    } catch(error) {
-      console.log(error)
+    } catch(err) {
+      console.log(err)
     }
 });
   
