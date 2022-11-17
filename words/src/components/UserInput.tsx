@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
@@ -25,11 +26,19 @@ const Button = styled.button`
   width: 100px;
 `
 
-const UserInput = () => {
+interface UserInputProps {
+  setQuery: (query?: string) => void
+}
+
+const UserInput: React.FC<UserInputProps> = ({
+  setQuery
+}: UserInputProps) => {
+  const [inputValue, setInputValue] = useState<string | undefined>(undefined)
+
   return (
     <Wrapper>
-        <Input />
-        <Button>enter</Button>
+        <Input onChange={e => setInputValue(e.target.value)} />
+        <Button onClick={() => setQuery(inputValue)}>search</Button>
     </Wrapper>
   )
 }

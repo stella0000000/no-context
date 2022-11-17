@@ -16,9 +16,9 @@ export async function googleSentimentApi(query: string): Promise<Sentiment> {
   const [response] = await client.analyzeSentiment({document: document});
   const sentiment = response.documentSentiment;
 
-  console.log(`Text: ${query}`);
-  console.log(`Sentiment score: ${sentiment.score}`);
-  console.log(`Sentiment magnitude: ${sentiment.magnitude}`);
+  // console.log(`Text: ${query}`);
+  // console.log(`Sentiment score: ${sentiment.score}`);
+  // console.log(`Sentiment magnitude: ${sentiment.magnitude}`);
 
   const result: Sentiment = {
     score: sentiment.score,

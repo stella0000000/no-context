@@ -1,5 +1,3 @@
-import { getSystemErrorMap } from "util";
-
 let snoowrap = require('snoowrap');
 
 type RedditData = {
@@ -17,28 +15,22 @@ const r = new snoowrap({
 
 
 async function getCommentsApi(name:string) {
-
   const postId = name.slice(3); // remove prefix from name id
   const sort = "best";
   const threaded = false;
   const uri = `/comments/${postId}?sort=${sort}&threaded=${threaded}`;
 
-  const commentBodies = await r._get({uri: `${uri}`}).comments.slice(20).map((comment:any) => comment.body)
-  // const listing = submission.comments
-
-  // const commentBodies = new Array();
-  // for (let i = 0; i < Math.min(listing.length, 20); i++) {
-  //   commentBodies.push(listing[i].body)
-  // }
-  console.log(commentBodies)
+  const numComments = 20
+  const commentBodies = await r._get({uri: `${uri}`}).comments.slice(0, numComments).map((comment:any) => comment.body)
 
   const charLimit = 500
-  const commentString = commentBodies.join(' ').slice(charLimit)
+  const commentString = commentBodies.join(' ').slice(0, charLimit)
+
   return commentString
 }
 
 async function getRedditPostApi(query: string) {
-  const response = await r.search({query, sort:'relevance', limit:10, includeNsfw:false}).filter((submission:any) => submission.post_hint === 'image').map((submission:any) => {
+  const response = await r.search({query, sort: 'hot', limit: 10, includeNsfw:false}).filter((submission:any) => submission.post_hint === 'image').map((submission:any) => {
     return {
       title:submission.title,
       name:submission.name,
@@ -65,7 +57,6 @@ export async function getRedditData(query: string): Promise<RedditData> {
     }
 
     return result
-
   } else {
     throw new Error(`No posts found for query: ${query}.`)
   }

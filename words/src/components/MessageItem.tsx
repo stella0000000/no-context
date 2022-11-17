@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 export enum ACTOR {
   COMPUTER,
-  HUMAN
+  USER
 }
 
 export interface Message {
@@ -11,8 +11,8 @@ export interface Message {
   actor: ACTOR
 }
 
-interface MessagesProps {
-  messages?: Message[]
+interface MessageProps {
+  message: Message
 }
 
 const Wrapper = styled.div<{actor: ACTOR}>`
@@ -25,28 +25,19 @@ const Wrapper = styled.div<{actor: ACTOR}>`
 
 const Container = styled.div`
   width: 60%;
+  padding-bottom: 10px;
 `
 
-const Messages: React.FC<MessagesProps> = (props: MessagesProps) => {
-  const { messages } = props;
+const MessageItem: React.FC<MessageProps> = (props: MessageProps) => {
+  const { message } = props
 
-  const eachMessage = messages?.map((msg, idx) => {
-    const { content, actor } = msg;
-
-    return (
-      <Wrapper key={idx} actor={actor}>
-        <Container>
-          {content}
-        </Container>
-      </Wrapper>
-    )
-  })
-
-    return (
-      <>
-        {eachMessage}
-      </>
-    )
+  return (
+    <Wrapper actor={message.actor}>
+      <Container>
+        {message.content}
+      </Container>
+    </Wrapper>
+  )
 }
 
-export default Messages
+export default MessageItem
