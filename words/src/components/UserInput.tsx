@@ -5,9 +5,8 @@ const Wrapper = styled.div`
   bottom: 0;
   z-index: 1000;
   display: flex;
-  justify-content: center;
   width: 100vw;
-  padding: 20px 0px;
+  padding: 20px 20px;
   background: #fff;
   height: 60px;
 `
@@ -15,7 +14,7 @@ const Wrapper = styled.div`
 const Input = styled.input`
   border: 2px solid black;
   font-size: 40px;
-  width: 80%;
+  width: calc(100vw - 155px);
 `
 
 const Button = styled.button`
@@ -23,6 +22,7 @@ const Button = styled.button`
   font-size: 20px;
   border-radius: 5px;
   margin-left: 10px;
+  width: 100px;
 `
 
 const UserInput = () => {
