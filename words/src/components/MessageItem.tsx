@@ -40,7 +40,7 @@ const Container = styled.div`
 
 const MessageItem: React.FC<MessageProps> = (props: MessageProps) => {
   const { message } = props
-  const imageTag = message.image ? <Image src={message.image}/> : null  
+  const imageTag = message.image ? <Image src={message.image}/> : null
 
   // function typeWriter() {
   //   const text = message.text
