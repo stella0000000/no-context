@@ -30,14 +30,23 @@ interface UserInputProps {
   setQuery: (query?: string) => void
 }
 
+
+
 const UserInput: React.FC<UserInputProps> = ({
   setQuery
 }: UserInputProps) => {
+
   const [inputValue, setInputValue] = useState<string | undefined>(undefined)
+
+  const handleKeyPress = (event: React.KeyboardEvent) => {
+    if(event.key === 'Enter'){
+      setQuery(inputValue)
+    }
+  }
 
   return (
     <Wrapper>
-        <Input onChange={e => setInputValue(e.target.value)} />
+        <Input onChange={e => setInputValue(e.target.value)} onKeyDown={e => handleKeyPress(e)}/>
         <Button onClick={() => setQuery(inputValue)}>search</Button>
     </Wrapper>
   )

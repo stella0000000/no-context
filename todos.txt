@@ -1,7 +1,16 @@
 
-in progress:
-M- get comments + flag
-S- prototype
+todo:
+    - add autoscroll to chatbox
+    - add character limits to input
+    - flesh out the messages and error handling
+        - map adjectives to sentiment scores
+        - do something responsive with sentiment data?
+    - fav icon
+    - typing effect for computer response
+    - check deployment env variables
+    - add types and error handling
+    - render images
+    - responsive design (mobile, etc)
 
 states:
 1. waiting for reddit input: "What topic shall we search?"
