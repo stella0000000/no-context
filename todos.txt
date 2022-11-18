@@ -1,7 +1,6 @@
 
 todo:
     - add autoscroll to chatbox
-    - add character limits to input
     - flesh out the messages and error handling
         - map adjectives to sentiment scores
         - do something responsive with sentiment data?
@@ -9,7 +8,6 @@ todo:
     - typing effect for computer response
     - check deployment env variables
     - add types and error handling
-    - render images
     - responsive design (mobile, etc)
 
 states:

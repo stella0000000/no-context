@@ -12,6 +12,8 @@ enum APPSTATE {
 type RedditData = {
   imageUrl: string
   postTitle: string
+  subreddit: string
+  link: string
   comments: string
 }
 
@@ -20,7 +22,7 @@ type SentimentData = {
   storySentiment: Sentiment
 }
 
-type Sentiment = {
+export type Sentiment = {
   score: number // positive or negative sentiment
   magnitude: number // magnitude of the score
 }
@@ -32,11 +34,11 @@ function App() {
   const [sentimentData, setSentimentData] = useState<SentimentData | undefined>(undefined)
   const [messages, setMessages] = useState<Message[]>([
     {
-      content: `Welcome to No Context. We utilize Reddit’s API to find a random image connected to your search. You can write a short, imaginative blurb about it, and we’ll analyze your story’s sentiment along with the top comments'.`,
+      text: `Welcome to No Context. We utilize Reddit’s API to find a random image connected to your search. You can write a short, imaginative blurb about it, and we’ll analyze your story’s sentiment along with the top comments'.`,
       actor: ACTOR.COMPUTER
     },
     {
-      content: 'What are you wondering about?',
+      text: 'What are you wondering about?',
       actor: ACTOR.COMPUTER
     },
   ])
@@ -47,7 +49,11 @@ function App() {
       const redditResponse = await fetch(`/reddit?query=${query}`)
       const redditData: RedditData = await redditResponse.json()
       setRedditData(redditData)
-      const message = { content: `Here's an image we found! ${redditData.imageUrl} What do you think?`, actor: ACTOR.COMPUTER }
+      const message = { text: `Here's an image we found! What do you think?`, 
+                        image: redditData.imageUrl, 
+                        subreddit: redditData.subreddit, 
+                        link: redditData.link,
+                        actor: ACTOR.COMPUTER }
       setMessages(prevData => [...prevData, message])
     }
 
@@ -55,38 +61,36 @@ function App() {
       const storySentiment = await fetch(`/google_sentiment?query=${query}`)
       const storySentimentResponse: Sentiment = await storySentiment.json()
       // console.log(storyResponse)
-      setSentimentData((prevData: any) => ({ ...prevData, storySentiment: storySentimentResponse}))
+      setSentimentData((prevData: any) => ({ ...prevData, storySentiment: storySentimentResponse }))
       // setSentimentData((prevData) =/)
     
       const commentSentiment = await fetch(`/google_sentiment?query=${redditData?.comments}`)
       const commentSentimentResponse: Sentiment = await commentSentiment.json()
-      setSentimentData((prevData: any) => ({ ...prevData, commentSentiment: commentSentimentResponse}))
+      setSentimentData((prevData: any) => ({ ...prevData, commentSentiment: commentSentimentResponse }))
 
       // console.log(sentimentData)
 
-      const message = { content: `It looks like you felt this image was <sentiment: ${storySentimentResponse.score}>\n
+      const message = { text: `It looks like you felt this image was <sentiment: ${storySentimentResponse.score}>\n
       The interwebs felt that the image was <sentiment: ${commentSentimentResponse.score}>`, actor: ACTOR.COMPUTER }
       setMessages(prevData => [...prevData, message])
     }
+
     console.log(`before branching: ${appState}`)
     console.log(`with query: ${query}`)
     if (appState === APPSTATE.REDDIT && query) {
-      const userInputMessage: Message = { content: query!, actor: ACTOR.USER }
+      const userInputMessage: Message = { text: query!, actor: ACTOR.USER }
       setMessages(prevData => [...prevData, userInputMessage])
       reddit(query)
-      console.log(`before: ${appState}`)
       setAppState(APPSTATE.SENTIMENT)
-      console.log(`after: ${appState}`)
     } else if (appState === APPSTATE.SENTIMENT){
       console.log(query)
-      const userInputMessage: Message = { content: query!, actor: ACTOR.USER }
+      const userInputMessage: Message = { text: query!, actor: ACTOR.USER }
       setMessages(prevData => [...prevData, userInputMessage])
       getSentiments(query)
       setAppState(APPSTATE.REDDIT)
     } else {
       console.log("we did nothing")
     }
-
   }, [query])
 
   return (

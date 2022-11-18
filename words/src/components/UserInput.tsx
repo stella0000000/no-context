@@ -46,7 +46,7 @@ const UserInput: React.FC<UserInputProps> = ({
 
   return (
     <Wrapper>
-        <Input onChange={e => setInputValue(e.target.value)} onKeyDown={e => handleKeyPress(e)}/>
+        <Input maxLength={500} onChange={e => setInputValue(e.target.value)} onKeyDown={e => handleKeyPress(e)}/>
         <Button onClick={() => setQuery(inputValue)}>search</Button>
     </Wrapper>
   )

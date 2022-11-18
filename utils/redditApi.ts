@@ -3,6 +3,8 @@ let snoowrap = require('snoowrap');
 type RedditData = {
   imageUrl: string
   postTitle: string
+  subreddit: string
+  link: string
   comments: string
 }
 
@@ -38,6 +40,7 @@ async function getRedditPostApi(query: string) {
       over_18: submission.over_18,
       subreddit: submission.subreddit_name_prefixed,
       subreddit_id: submission.subreddit_id,
+      link: submission.permalink
       };
     }) 
 
@@ -53,6 +56,8 @@ export async function getRedditData(query: string): Promise<RedditData> {
     const result: RedditData = {
       imageUrl: redditResult.imageUrl,
       postTitle: redditResult.title,
+      subreddit: redditResult.subreddit,
+      link: redditResult.link,
       comments: commmentString,
     }
 

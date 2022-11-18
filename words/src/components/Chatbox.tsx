@@ -1,6 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import MessageItem, { Message } from "./MessageItem"
+import { useChatScroll } from "./Utils"
 
 interface ChatboxProps {
   messages: Message[]
@@ -12,8 +13,19 @@ const Wrapper = styled.div`
   height: calc(100vh - 125px);
 `
 
+// const Chat = () => {
+//   const [messages , setMessages] = React.useState([])
+//   const ref = useChatScroll(messages)
+//   return(
+//     <div ref={ref} >
+//       {/* Chat feed here */}
+//     </div>
+//   )
+// }
+
 const Chatbox: React.FC<ChatboxProps> = (props: ChatboxProps) => {
   const { messages } = props;
+  const ref = useChatScroll(messages)
 
   const allMessages = messages?.map((message: Message, idx: number) => {
     return (
@@ -22,7 +34,7 @@ const Chatbox: React.FC<ChatboxProps> = (props: ChatboxProps) => {
   })
 
   return (
-    <Wrapper>
+    <Wrapper ref={ref}>
       {allMessages}
     </Wrapper>
   )
