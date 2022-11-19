@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { Sentiment } from '../App'
 import { keyframes } from 'styled-components'
@@ -41,19 +41,34 @@ const Container = styled.div`
 const MessageItem: React.FC<MessageProps> = (props: MessageProps) => {
   const { message } = props
   const imageTag = message.image ? <Image src={message.image}/> : null
+  const [typedText, setTypedText] = useState<string>('')
+  const [idx, setIdx] = useState(0);
 
-  // function typeWriter() {
-  //   const text = message.text
-  //   const i = 0
-  //   if (i < text.length) {
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setIdx(idx + 1);
+    }, 40);
 
-  //   }
-  // }
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [idx]);
+
+  useEffect(() => {
+    if (message.actor === ACTOR.COMPUTER) {
+      if (idx < message.text.length) {
+        setTypedText(typedText + message.text.charAt(idx))
+      }
+    }
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [idx])
 
   return (
     <Wrapper actor={message.actor}>
       <Container>
-        {message.text}
+        {message.actor === ACTOR.USER ? message.text : null}
+        {typedText}
         {imageTag}
         {message.link}
       </Container>

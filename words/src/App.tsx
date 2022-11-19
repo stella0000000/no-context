@@ -34,11 +34,7 @@ function App() {
   const [sentimentData, setSentimentData] = useState<SentimentData | undefined>(undefined)
   const [messages, setMessages] = useState<Message[]>([
     {
-      text: `Welcome to No Context. We utilize Reddit’s API to find a random image connected to your search. You can write a short, imaginative blurb about it, and we’ll analyze your story’s sentiment along with the top comments'.`,
-      actor: ACTOR.COMPUTER
-    },
-    {
-      text: 'What are you wondering about?',
+      text: "Welcome to No Context. What are you wondering about?",
       actor: ACTOR.COMPUTER
     },
   ])
