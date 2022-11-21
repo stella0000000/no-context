@@ -40,18 +40,14 @@ const Container = styled.div`
 
 const MessageItem: React.FC<MessageProps> = (props: MessageProps) => {
   const { message } = props
-  const imageTag = message.image ? <Image src={message.image}/> : null
-  const [typedText, setTypedText] = useState<string>('')
   const [idx, setIdx] = useState(0);
+  const [typedText, setTypedText] = useState<string>('')
 
   useEffect(() => {
     const timeout = setTimeout(() => {
       setIdx(idx + 1);
-    }, 40);
-
-    return () => {
-      clearTimeout(timeout);
-    };
+    }, 50);
+    return () => clearTimeout(timeout);
   }, [idx]);
 
   useEffect(() => {
@@ -60,16 +56,14 @@ const MessageItem: React.FC<MessageProps> = (props: MessageProps) => {
         setTypedText(typedText + message.text.charAt(idx))
       }
     }
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idx])
 
   return (
     <Wrapper actor={message.actor}>
       <Container>
-        {message.actor === ACTOR.USER ? message.text : null}
-        {typedText}
-        {imageTag}
+        {message.actor === ACTOR.USER ? message.text : typedText}
+        {message.image ? <Image src={message.image}/> : null}
         {message.link}
       </Container>
     </Wrapper>
