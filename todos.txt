@@ -1,14 +1,10 @@
 
 todo:
-    - add autoscroll to chatbox
     - flesh out the messages and error handling
-        - map adjectives to sentiment scores
-        - do something responsive with sentiment data?
-    - fav icon
-    - typing effect for computer response
     - check deployment env variables
     - add types and error handling
-    - responsive design (mobile, etc)
+    - check sentiment score + magnitude mapping fns in `src/utils.ts` + `translateSentiment` function to format to CSS
+    - use sentiment connotation (+/-/0) to trigger brief raining (🙂/☹️/😐) emoji effect?
 
 states:
 1. waiting for reddit input: "What topic shall we search?"
