@@ -5,6 +5,7 @@ todo:
     - add types and error handling
     - check sentiment score + magnitude mapping fns in `src/utils.ts` + `translateSentiment` function to format to CSS
     - use sentiment connotation (+/-/0) to trigger brief raining (🙂/☹️/😐) emoji effect?
+    - [mobile] fix fav, fix user input overflow
 
 states:
 1. waiting for reddit input: "What topic shall we search?"
