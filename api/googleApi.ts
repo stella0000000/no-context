@@ -6,28 +6,35 @@ type Sentiment = {
   magnitude: number // magnitude of the score
 }
 
+const options = {
+  credentials: {
+    client_email: process.env.GOOGLE_CLIENT_EMAIL,
+    private_key: process.env.GOOGLE_PRIVATE_KEY,
+  },
+  projectId: process.env.GOOGLE_PROJECT_ID,
+};
+const client = new language.LanguageServiceClient(options);
+
+
 module.exports = async function googleSentimentApi(query: string): Promise<Sentiment> {
-  const options = {
-    credentials: {
-      client_email: process.env.GOOGLE_CLIENT_EMAIL,
-      private_key: process.env.GOOGLE_PRIVATE_KEY,
-    },
-    projectId: process.env.GOOGLE_PROJECT_ID,
-  };
-  const client = new language.LanguageServiceClient(options);
-  
-  const document = {
-    content: query,
-    type: 'PLAIN_TEXT',
-  };
+  try {
+    const document = {
+      content: query,
+      type: 'PLAIN_TEXT',
+    };
+    
+    const [response] = await client.analyzeSentiment({document: document});
+    const sentiment = response.documentSentiment;
 
-  const [response] = await client.analyzeSentiment({document: document});
-  const sentiment = response.documentSentiment;
+    const result: Sentiment = {
+      score: sentiment.score,
+      magnitude: sentiment.magnitude,
+    }
 
-  const result: Sentiment = {
-    score: sentiment.score,
-    magnitude: sentiment.magnitude,
+    console.log({ result })
+    return result
+  } catch(err) {
+    console.log({ err })
+    return err
   }
-
-  return result
 }
