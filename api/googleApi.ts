@@ -1,3 +1,4 @@
+require('dotenv').config();
 const language = require('@google-cloud/language');
 
 type Sentiment = {
@@ -6,7 +7,16 @@ type Sentiment = {
 }
 
 module.exports = async function googleSentimentApi(query: string): Promise<Sentiment> {
-  const client = new language.LanguageServiceClient();
+  const options = {
+    credentials: {
+      client_email: process.env.GOOGLE_CLIENT_EMAIL,
+      private_key: process.env.GOOGLE_PRIVATE_KEY,
+    },
+    // email: ,
+    // keyFilename: ,
+    projectId: process.env.GOOGLE_PROJECT_ID,
+  };
+  const client = new language.LanguageServiceClient(options);
   
   const document = {
     content: query,
