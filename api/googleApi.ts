@@ -12,8 +12,6 @@ module.exports = async function googleSentimentApi(query: string): Promise<Senti
       client_email: process.env.GOOGLE_CLIENT_EMAIL,
       private_key: process.env.GOOGLE_PRIVATE_KEY,
     },
-    // email: ,
-    // keyFilename: ,
     projectId: process.env.GOOGLE_PROJECT_ID,
   };
   const client = new language.LanguageServiceClient(options);
