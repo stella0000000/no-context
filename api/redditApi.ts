@@ -1,3 +1,4 @@
+require('dotenv').config();
 let snoowrap = require('snoowrap');
 
 type RedditData = {
@@ -47,7 +48,7 @@ async function getRedditPostApi(query: string) {
   return response[Math.floor(Math.random()*response.length)];
 }
 
-export async function getRedditData(query: string): Promise<RedditData> {
+module.exports = async function getRedditData(query: string): Promise<RedditData> {
   const redditResult = await getRedditPostApi(query) 
 
   if (redditResult) {

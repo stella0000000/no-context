@@ -1,11 +1,11 @@
 const language = require('@google-cloud/language');
 
 type Sentiment = {
-  score: number // positive or negative sentiment
+  score: number     // positive or negative sentiment
   magnitude: number // magnitude of the score
 }
 
-export async function googleSentimentApi(query: string): Promise<Sentiment> {
+module.exports = async function googleSentimentApi(query: string): Promise<Sentiment> {
   const client = new language.LanguageServiceClient();
   
   const document = {
@@ -15,10 +15,6 @@ export async function googleSentimentApi(query: string): Promise<Sentiment> {
 
   const [response] = await client.analyzeSentiment({document: document});
   const sentiment = response.documentSentiment;
-
-  // console.log(`Text: ${query}`);
-  // console.log(`Sentiment score: ${sentiment.score}`);
-  // console.log(`Sentiment magnitude: ${sentiment.magnitude}`);
 
   const result: Sentiment = {
     score: sentiment.score,

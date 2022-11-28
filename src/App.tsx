@@ -42,7 +42,12 @@ function App() {
   useEffect(() => {
     const reddit = async (query?: string) => {
       console.log(query)
-      const redditResponse = await fetch(`/api/reddit?query=${query}`)
+      const redditResponse = await fetch(`/api/reddit?query=${query}`, {
+        headers : { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+         }
+      })
       const redditData: RedditData = await redditResponse.json()
       setRedditData(redditData)
       const message = { text: `Here's an image we found! What do you think?`, 
@@ -54,13 +59,25 @@ function App() {
     }
 
     const getSentiments = async (query?: string): Promise<void> => {
-      const storySentiment = await fetch(`/api/google_sentiment?query=${query}`)
+      const storySentiment = await fetch(`/api/google_sentiment?query=${query}`, {
+        headers : { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+         }
+  
+      })
       const storySentimentResponse: Sentiment = await storySentiment.json()
       // console.log(storyResponse)
       setSentimentData((prevData: any) => ({ ...prevData, storySentiment: storySentimentResponse }))
       // setSentimentData((prevData) =/)
     
-      const commentSentiment = await fetch(`/api/google_sentiment?query=${redditData?.comments}`)
+      const commentSentiment = await fetch(`/api/google_sentiment?query=${redditData?.comments}`, {
+        headers : { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+         }
+  
+      })
       const commentSentimentResponse: Sentiment = await commentSentiment.json()
       setSentimentData((prevData: any) => ({ ...prevData, commentSentiment: commentSentimentResponse }))
 

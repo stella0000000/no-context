@@ -1,8 +1,13 @@
+// import { googleSentimentApi } from './googleApi';
+const googleApi = require('./googleApi')
+const redditApi = require('./redditApi')
+// import { getRedditData } from './redditApi';
 const app = require('express')();
 const { v4 } = require('uuid');
 require('dotenv').config();
-import { googleSentimentApi } from './googleApi';
-import { getRedditData } from './redditApi';
+
+console.log(redditApi)
+
 
 app.get('/api', (req: any, res: any) => {
   const path = `/api/item/${v4()}`;
@@ -22,7 +27,7 @@ app.get("/api/google_sentiment", async (req: any, res: any) => {
   const query = req.query.query
 
   try {
-    const response = await googleSentimentApi(query)
+    const response = await googleApi(query)
     res.send(response)
   } catch(err) {
     console.log(err)
@@ -33,7 +38,7 @@ app.get("/api/reddit", async (req: any, res: any) => {
     const { query } = req.query
 
     try {
-      const response = await getRedditData(query)
+      const response = await redditApi(query)
       res.send(response)
     } catch(err) {
       console.log(err)
