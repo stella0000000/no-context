@@ -7,6 +7,7 @@ todo:
     - use sentiment connotation (+/-/0) to trigger brief raining (🙂/☹️/😐) emoji effect?
     - [mobile] fix fav, fix user input overflow
 
+
 states:
 1. waiting for reddit input: "What topic shall we search?"
     at submit => {
