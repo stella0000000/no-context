@@ -1,7 +1,6 @@
 
 todo:
     - flesh out the messages and error handling
-    - check deployment env variables
     - add types and error handling
     - check sentiment score + magnitude mapping fns in `src/utils.ts` + `translateSentiment` function to format to CSS
     - use sentiment connotation (+/-/0) to trigger brief raining (🙂/☹️/😐) emoji effect?
