@@ -28,3 +28,12 @@ states:
             change to state 1
         }
     }
+
+
+
+Possible Errors:
+- error at reddit API call - OK
+- no query result
+- no query result with image
+- error at google API call
+- invalid input, like a submit on an empty input?

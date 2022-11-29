@@ -41,21 +41,32 @@ function App() {
 
   useEffect(() => {
     const reddit = async (query?: string) => {
-      console.log(query)
+      // console.log(query)
       const redditResponse = await fetch(`/api/reddit?query=${query}`, {
         headers : { 
           'Content-Type': 'application/json',
           'Accept': 'application/json'
          }
       })
-      const redditData: RedditData = await redditResponse.json()
-      setRedditData(redditData)
-      const message = { text: `Here's an image we found! What do you think?`, 
-                        image: redditData.imageUrl, 
-                        subreddit: redditData.subreddit, 
-                        link: redditData.link,
-                        actor: ACTOR.COMPUTER }
-      setMessages(prevData => [...prevData, message])
+      console.log({redditResponse})
+      
+      if (redditResponse.status >= 400) {
+        const message = { text: `Nothing found for that search. Please enter a new search.`, 
+                          actor: ACTOR.COMPUTER }
+        setMessages(prevData => [...prevData, message])
+      } else {
+        const redditData: RedditData = await redditResponse.json()
+        setRedditData(redditData)
+
+        // check that we actually got an image, else we return an error
+        const message = { text: `Here's an image we found! What do you think?`, 
+                          image: redditData.imageUrl, 
+                          subreddit: redditData.subreddit, 
+                          link: redditData.link,
+                          actor: ACTOR.COMPUTER }
+        setMessages(prevData => [...prevData, message])
+        setAppState(APPSTATE.SENTIMENT)
+      }
     }
 
     const getSentiments = async (query?: string): Promise<void> => {
@@ -64,45 +75,45 @@ function App() {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
          }
-  
       })
       const storySentimentResponse: Sentiment = await storySentiment.json()
-      // console.log(storyResponse)
       setSentimentData((prevData: any) => ({ ...prevData, storySentiment: storySentimentResponse }))
-      // setSentimentData((prevData) =/)
     
       const commentSentiment = await fetch(`/api/google_sentiment?query=${redditData?.comments}`, {
         headers : { 
           'Content-Type': 'application/json',
           'Accept': 'application/json'
          }
-  
       })
+
       const commentSentimentResponse: Sentiment = await commentSentiment.json()
       setSentimentData((prevData: any) => ({ ...prevData, commentSentiment: commentSentimentResponse }))
 
-      // console.log(sentimentData)
-
-      const message = { text: `It looks like you felt this image was <sentiment: ${storySentimentResponse.score}>\n
-      The interwebs felt that the image was <sentiment: ${commentSentimentResponse.score}>`, actor: ACTOR.COMPUTER }
-      setMessages(prevData => [...prevData, message])
+      // check that we actually got sentiments, else we set message to communicate error
+      if (Object.keys(commentSentimentResponse).length === 0 || Object.keys(storySentimentResponse).length === 0) {
+        const message = { text: "Could not analyze text. Please try again later.", 
+                          actor: ACTOR.COMPUTER }
+        setMessages(prevData => [...prevData, message])
+      } else {
+        const message = { text: `It looks like you felt this image was <sentiment: ${storySentimentResponse.score}>\n
+        The interwebs felt that the image was <sentiment: ${commentSentimentResponse.score}>`, actor: ACTOR.COMPUTER }
+        setMessages(prevData => [...prevData, message])
+        setAppState(APPSTATE.REDDIT)
+      }
     }
 
-    console.log(`before branching: ${appState}`)
-    console.log(`with query: ${query}`)
     if (appState === APPSTATE.REDDIT && query) {
       const userInputMessage: Message = { text: query!, actor: ACTOR.USER }
       setMessages(prevData => [...prevData, userInputMessage])
       reddit(query)
-      setAppState(APPSTATE.SENTIMENT)
     } else if (appState === APPSTATE.SENTIMENT){
       console.log(query)
       const userInputMessage: Message = { text: query!, actor: ACTOR.USER }
       setMessages(prevData => [...prevData, userInputMessage])
       getSentiments(query)
-      setAppState(APPSTATE.REDDIT)
     } else {
-      console.log("we did nothing")
+      // here we do nothing
+      return
     }
   }, [query])
 

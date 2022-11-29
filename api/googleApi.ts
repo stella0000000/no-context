@@ -16,7 +16,7 @@ const options = {
 const client = new language.LanguageServiceClient(options);
 
 
-module.exports = async function googleSentimentApi(query: string): Promise<Sentiment> {
+module.exports = async function googleSentimentApi(query: string): Promise<any> {
   try {
     const document = {
       content: query,
@@ -31,10 +31,10 @@ module.exports = async function googleSentimentApi(query: string): Promise<Senti
       magnitude: sentiment.magnitude,
     }
 
-    console.log({ result })
+    // console.log({ result })
     return result
   } catch(err) {
-    console.log({ err })
+    // console.log({ err })
     return err
   }
 }

@@ -16,7 +16,6 @@ const r = new snoowrap({
   refreshToken: process.env.REDDIT_REFRESH_TOKEN!,
 });
 
-
 async function getCommentsApi(name:string) {
   const postId = name.slice(3); // remove prefix from name id
   const sort = "best";
@@ -24,7 +23,11 @@ async function getCommentsApi(name:string) {
   const uri = `/comments/${postId}?sort=${sort}&threaded=${threaded}`;
 
   const numComments = 20
-  const commentBodies = await r._get({uri: `${uri}`}).comments.slice(0, numComments).map((comment:any) => comment.body)
+  const response = await r._get({uri: `${uri}`})
+
+  // console.log(`getCommentsApi response: ${response}`)
+
+  const commentBodies = response.comments.slice(0, numComments).map((comment:any) => comment.body)
 
   const charLimit = 500
   const commentString = commentBodies.join(' ').slice(0, charLimit)
@@ -33,37 +36,60 @@ async function getCommentsApi(name:string) {
 }
 
 async function getRedditPostApi(query: string) {
-  const response = await r.search({query, sort: 'hot', limit: 10, includeNsfw:false}).filter((submission:any) => submission.post_hint === 'image').map((submission:any) => {
-    return {
-      title:submission.title,
-      name:submission.name,
-      imageUrl:submission.url_overridden_by_dest,
-      over_18: submission.over_18,
-      subreddit: submission.subreddit_name_prefixed,
-      subreddit_id: submission.subreddit_id,
-      link: submission.permalink
-      };
-    }) 
+  const response = await r.search({query, sort: 'hot', limit: 10, includeNsfw:false})
 
-  return response[Math.floor(Math.random()*response.length)];
+  // console.log(`getRedditPostApi response: ${JSON.stringify(response,null,2)}`)
+
+  const filtered_response = response.filter((submission:any) => submission.post_hint === 'image')
+
+  // console.log(`getRedditPostApi filtered_response: ${JSON.stringify(filtered_response,null,2)}`)
+
+  if (filtered_response.length === 0) {
+    console.log("in_error")
+    throw Error(`No valid posts found for query: ${query}.`)
+  } else {
+    const mapped_response = filtered_response.map((submission:any) => {
+      return {
+        title:submission.title,
+        name:submission.name,
+        imageUrl:submission.url_overridden_by_dest,
+        over_18: submission.over_18,
+        subreddit: submission.subreddit_name_prefixed,
+        subreddit_id: submission.subreddit_id,
+        link: submission.permalink
+        };
+      });
+  // if we got to here, we have at least one valid result
+  // pick a random response out of the list of results
+  const random_response = mapped_response[Math.floor(Math.random()*mapped_response.length)];
+
+  return random_response;
+  }
 }
 
-module.exports = async function getRedditData(query: string): Promise<RedditData> {
-  const redditResult = await getRedditPostApi(query) 
+module.exports = async function getRedditData(query: string): Promise<any> {
+  try {
+    const redditResult = await getRedditPostApi(query)
+    console.log(`getRedditPostApi: ${JSON.stringify(redditResult,null,2)}`)
 
-  if (redditResult) {
-    const commmentString = await getCommentsApi(redditResult.name)
+    console.log("about to get comments")
+  // Otherwise we have a result, so we can get some comments
+  const commmentString = await getCommentsApi(redditResult.name)
 
-    const result: RedditData = {
-      imageUrl: redditResult.imageUrl,
-      postTitle: redditResult.title,
-      subreddit: redditResult.subreddit,
-      link: redditResult.link,
-      comments: commmentString,
-    }
+  console.log(commmentString)
 
-    return result
-  } else {
-    throw new Error(`No posts found for query: ${query}.`)
+  const result: RedditData = {
+    imageUrl: redditResult.imageUrl,
+    postTitle: redditResult.title,
+    subreddit: redditResult.subreddit,
+    link: redditResult.link,
+    comments: commmentString,
+  }
+
+  return result
+  }
+  catch(error) {
+    console.log(error)
+    throw error
   }
 }

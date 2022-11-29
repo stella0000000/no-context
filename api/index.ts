@@ -39,9 +39,12 @@ app.get("/api/reddit", async (req: any, res: any) => {
 
     try {
       const response = await redditApi(query)
+      console.log(`response in try block: ${response}`)
       res.send(response)
     } catch(err) {
+
       console.log(err)
+      res.status(500).json('Uh oh - No valid posts')
     }
 });
   
