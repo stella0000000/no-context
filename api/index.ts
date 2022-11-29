@@ -1,13 +1,8 @@
-// import { googleSentimentApi } from './googleApi';
 const googleApi = require('./googleApi')
 const redditApi = require('./redditApi')
-// import { getRedditData } from './redditApi';
 const app = require('express')();
 const { v4 } = require('uuid');
 require('dotenv').config();
-
-console.log(redditApi)
-
 
 app.get('/api', (req: any, res: any) => {
   const path = `/api/item/${v4()}`;

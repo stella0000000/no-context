@@ -6,17 +6,22 @@ type Sentiment = {
   magnitude: number // magnitude of the score
 }
 
+const credential = JSON.parse(
+  Buffer.from(process.env.GOOGLE_SERVICE_KEY!, "base64").toString()
+);
+
 const options = {
-  credentials: {
-    client_email: process.env.GOOGLE_CLIENT_EMAIL,
-    private_key: process.env.GOOGLE_PRIVATE_KEY,
-  },
   projectId: process.env.GOOGLE_PROJECT_ID,
-};
+  credentials: {
+    client_email: credential.client_email,
+    private_key: credential.private_key,
+  }
+}
+
 const client = new language.LanguageServiceClient(options);
 
 
-module.exports = async function googleSentimentApi(query: string): Promise<Sentiment> {
+module.exports = async function googleSentimentApi(query: string): Promise<any> {
   try {
     const document = {
       content: query,

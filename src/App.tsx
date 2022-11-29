@@ -64,7 +64,6 @@ function App() {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
          }
-  
       })
       const storySentimentResponse: Sentiment = await storySentiment.json()
       // console.log(storyResponse)
