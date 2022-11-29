@@ -49,7 +49,7 @@ function App() {
          }
       })
       if (redditResponse.status >= 400) {
-        const message = { text: `Nothing found for that search. Please enter a new search.`, 
+        const message = { text: `Nothing found for: ${query}. Please enter a new search.`, 
                           actor: ACTOR.COMPUTER }
         setMessages(prevData => [...prevData, message])
       } else {
@@ -57,7 +57,7 @@ function App() {
         setRedditData(redditData)
 
         // check that we actually got an image, else we return an error
-        const message = { text: `We found an image. What do you think?`, 
+        const message = { text: `We found an image. How do you feel about this image?`, 
                           image: redditData.imageUrl, 
                           actor: ACTOR.COMPUTER }
         setMessages(prevData => [...prevData, message])

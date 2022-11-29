@@ -39,6 +39,8 @@ const Wrapper = styled.div<{actor: ACTOR}>`
 const Container = styled.div`
   width: 60%;
   padding-bottom: 10px;
+  overflow-x: hidden;
+  overflow-wrap: break-word;
 `
 
 const MessageItem: React.FC<MessageProps> = (props: MessageProps) => {
