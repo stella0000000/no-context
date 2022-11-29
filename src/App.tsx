@@ -52,8 +52,6 @@ function App() {
       setRedditData(redditData)
       const message = { text: 'We found an image. What do you think?', 
                         image: redditData.imageUrl, 
-                        subreddit: redditData.subreddit, 
-                        link: redditData.link,
                         actor: ACTOR.COMPUTER }
       setMessages(prevData => [...prevData, message])
     }
@@ -78,14 +76,11 @@ function App() {
       const commentSentimentResponse: Sentiment = await commentSentiment.json()
       setSentimentData((prevData: any) => ({ ...prevData, commentSentiment: commentSentimentResponse }))
 
-      const showImage = () => {
-        return (
-          <a href={`www.reddit.com/${redditData?.subreddit}`}>here</a>
-        )
-      }
-
       const message = {
-        text: `It looks like you felt this image was ${translateMagnitude(storySentimentResponse.magnitude)} ${translateScore(storySentimentResponse.score)}. The post's commenters found it ${translateMagnitude(commentSentimentResponse.score)} ${translateScore(commentSentimentResponse.score)}. Read the post ${showImage()}.`, actor: ACTOR.COMPUTER
+        text: `It looks like you felt this image was ${translateMagnitude(storySentimentResponse.magnitude)} ${translateScore(storySentimentResponse.score)}. The post's commenters found it ${translateMagnitude(commentSentimentResponse.score)} ${translateScore(commentSentimentResponse.score)}. `,
+        link: redditData?.link,
+        actor: ACTOR.COMPUTER,
+
       }
       setMessages(prevData => [...prevData, message])
     }

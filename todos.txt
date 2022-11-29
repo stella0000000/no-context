@@ -1,9 +1,8 @@
 
 todo:
-    - flesh out the messages and error handling
-    - add types and error handling
+    - check: messages, types, error handling
+    - [mobile] fix scroll cutoff + behavior
     - use sentiment connotation (+/-/0) to trigger brief raining (🙂/☹️/😐) emoji effect?
-    - [mobile] fix fav, fix user input overflow
 
 states:
 1. waiting for reddit input: "What topic shall we search?"

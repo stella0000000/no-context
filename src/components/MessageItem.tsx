@@ -45,7 +45,8 @@ const MessageItem: React.FC<MessageProps> = (props: MessageProps) => {
   const { message } = props
   const [idx, setIdx] = useState(0);
   const [typedText, setTypedText] = useState<string>('')
-  const [isDelayed, setIsDelayed] = useState(true)
+  const [imageDisplayed, setImageDisplayed] = useState(true)
+  const [linkDisplayed, setLinkDisplayed] = useState(true)
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -66,15 +67,21 @@ const MessageItem: React.FC<MessageProps> = (props: MessageProps) => {
   // wait for computer to finish typing before rendering image
   useEffect(() => {
     setInterval(() => {
-      setIsDelayed(false);
+      setImageDisplayed(false);
     }, 3000);
+  }, []);
+
+  useEffect(() => {
+    setInterval(() => {
+      setLinkDisplayed(false);
+    }, 6000);
   }, []);
 
   return (
     <Wrapper actor={message.actor}>
       <Container>
         {message.actor === ACTOR.USER ? message.text : typedText}
-        {message.image && !isDelayed
+        {message.image && !imageDisplayed
         ? (
           <>
             <br/>
@@ -82,7 +89,9 @@ const MessageItem: React.FC<MessageProps> = (props: MessageProps) => {
           </>
           )
         : null}
-        {/* {message.link} */}
+        {message.link && !linkDisplayed ? (
+          <a href={`https://reddit.com/${message?.link}`} target="_blank" rel="noreferrer">View post here.</a>
+        ) : null}
       </Container>
     </Wrapper>
   )
