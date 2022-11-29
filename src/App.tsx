@@ -48,12 +48,21 @@ function App() {
           'Accept': 'application/json'
          }
       })
-      const redditData: RedditData = await redditResponse.json()
-      setRedditData(redditData)
-      const message = { text: 'We found an image. What do you think?', 
-                        image: redditData.imageUrl, 
-                        actor: ACTOR.COMPUTER }
-      setMessages(prevData => [...prevData, message])
+      if (redditResponse.status >= 400) {
+        const message = { text: `Nothing found for that search. Please enter a new search.`, 
+                          actor: ACTOR.COMPUTER }
+        setMessages(prevData => [...prevData, message])
+      } else {
+        const redditData: RedditData = await redditResponse.json()
+        setRedditData(redditData)
+
+        // check that we actually got an image, else we return an error
+        const message = { text: `We found an image. What do you think?`, 
+                          image: redditData.imageUrl, 
+                          actor: ACTOR.COMPUTER }
+        setMessages(prevData => [...prevData, message])
+        setAppState(APPSTATE.SENTIMENT)
+      }
     }
 
     const getSentiments = async (query?: string): Promise<void> => {
@@ -71,30 +80,36 @@ function App() {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
          }
-  
       })
+
       const commentSentimentResponse: Sentiment = await commentSentiment.json()
       setSentimentData((prevData: any) => ({ ...prevData, commentSentiment: commentSentimentResponse }))
 
-      const message = {
-        text: `It looks like you felt this image was ${translateMagnitude(storySentimentResponse.magnitude)} ${translateScore(storySentimentResponse.score)}. The post's commenters found it ${translateMagnitude(commentSentimentResponse.score)} ${translateScore(commentSentimentResponse.score)}. `,
+      // check that we actually got sentiments, else we set message to communicate error
+      if (Object.keys(commentSentimentResponse).length === 0 || Object.keys(storySentimentResponse).length === 0) {
+        const message = { text: "Could not analyze text. Please try again later.", 
+                          actor: ACTOR.COMPUTER }
+        setMessages(prevData => [...prevData, message])
+      } else {
+        const message = { text: `It looks like you felt this image was ${translateMagnitude(storySentimentResponse.magnitude)} ${translateScore(storySentimentResponse.score)}. The post's commenters found it ${translateMagnitude(commentSentimentResponse.score)} ${translateScore(commentSentimentResponse.score)}. `,
         link: redditData?.link,
-        actor: ACTOR.COMPUTER,
-
+        actor: ACTOR.COMPUTER, }
+        setMessages(prevData => [...prevData, message])
+        setAppState(APPSTATE.REDDIT)
       }
-      setMessages(prevData => [...prevData, message])
     }
 
     if (appState === APPSTATE.REDDIT && query) {
       const userInputMessage: Message = { text: query!, actor: ACTOR.USER }
       setMessages(prevData => [...prevData, userInputMessage])
       reddit(query)
-      setAppState(APPSTATE.SENTIMENT)
     } else if (appState === APPSTATE.SENTIMENT){
       const userInputMessage: Message = { text: query!, actor: ACTOR.USER }
       setMessages(prevData => [...prevData, userInputMessage])
       getSentiments(query)
-      setAppState(APPSTATE.REDDIT)
+    } else {
+      // here we do nothing
+      return
     }
   }, [query])
 

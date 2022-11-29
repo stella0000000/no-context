@@ -34,9 +34,9 @@ module.exports = async function googleSentimentApi(query: string): Promise<any> 
       score: sentiment.score,
       magnitude: sentiment.magnitude,
     }
-    
     return result
   } catch(err) {
+    // console.log({ err })
     return err
   }
 }
