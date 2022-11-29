@@ -25,7 +25,6 @@ app.get("/api/google_sentiment", async (req: any, res: any) => {
     const response = await googleApi(query)
     res.send(response)
   } catch(err) {
-    console.log(err)
   }
 });
 
@@ -36,7 +35,7 @@ app.get("/api/reddit", async (req: any, res: any) => {
       const response = await redditApi(query)
       res.send(response)
     } catch(err) {
-      console.log(err)
+      return err
     }
 });
   

@@ -8,7 +8,6 @@ const Wrapper = styled.div`
   display: flex;
   width: 100vw;
   padding: 10px;
-  background: #fff;
   height: 60px;
 
   @media screen and (max-width: 768px) {
@@ -17,28 +16,26 @@ const Wrapper = styled.div`
 `
 
 const Input = styled.input`
-  border: 1px solid black;
+  border: 1px solid #fff;
   font-size: 35px;
   width: calc(100vw - 135px);
   border-radius: 5px;
 
   @media screen and (max-width: 768px) {
     font-size: 20px;
-    width: calc(100vw - 110px);
+    width: calc(100vw - 150px);
   }
 `
 
 const Button = styled.button`
-  background: #000;
-  color: #fff;
-  font-size: 25px;
+  border: 1px solid #fff;
+  font-size: 23px;
   border-radius: 5px;
   margin-left: 10px;
   width: 100px;
-  border: 1px solid black;
 
   @media screen and (max-width: 768px) {
-    font-size: 20px;
+    font-size: 17px;
     width: 75px;
   }
 `

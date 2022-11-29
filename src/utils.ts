@@ -25,11 +25,11 @@ export const translateScore = (score: number) => {
   const negative = score < 0
   const positive = score > 0
   if (positive) {
-    return 'positive'
+    return 'positive 🙂'
   } else if (negative) {
-    return 'negative'
+    return 'negative 🙁'
   } else {
-    return 'neutral'
+    return 'neutral 😐'
   }
 }
 

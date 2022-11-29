@@ -1,7 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Sentiment } from '../App'
-import { keyframes } from 'styled-components'
 
 export enum ACTOR {
   COMPUTER,
@@ -30,7 +29,7 @@ const Wrapper = styled.div<{actor: ACTOR}>`
   justify-content: ${props => (props.actor === ACTOR.COMPUTER) ? 'flex-start' : 'flex-end'};
   text-align: ${props => (props.actor === ACTOR.COMPUTER) ? 'left' : 'right'};
   padding-bottom: 10px;
-  color: ${props => (props.actor === ACTOR.COMPUTER) ? '#000' : 'blue'};
+  /* color: ${props => (props.actor === ACTOR.COMPUTER) ? '#fff' : 'blue'}; */
 `
 
 const Container = styled.div`
@@ -42,6 +41,7 @@ const MessageItem: React.FC<MessageProps> = (props: MessageProps) => {
   const { message } = props
   const [idx, setIdx] = useState(0);
   const [typedText, setTypedText] = useState<string>('')
+  const [isDelayed, setIsDelayed] = useState(true)
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -59,19 +59,29 @@ const MessageItem: React.FC<MessageProps> = (props: MessageProps) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idx])
 
+  // wait for computer to finish typing before rendering image
+  useEffect(() => {
+    setInterval(() => {
+      setIsDelayed(false);
+    }, 3000);
+  }, []);
+
   return (
     <Wrapper actor={message.actor}>
       <Container>
         {message.actor === ACTOR.USER ? message.text : typedText}
-        {message.image ? <Image src={message.image}/> : null}
-        {message.link}
+        {message.image && !isDelayed
+        ? (
+          <>
+            <br/>
+            <Image src={message.image} width={400} />
+          </>
+          )
+        : null}
+        {/* {message.link} */}
       </Container>
     </Wrapper>
   )
 }
 
 export default MessageItem
-
-// This image was from a post titled "What a nice watch" on r/watches.  
-// The internet felt that this post was really/slighty positive/negative. 
-// It seems you felt it was ______.

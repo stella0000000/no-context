@@ -3,6 +3,7 @@ import './App.css';
 import Chatbox from './components/Chatbox';
 import { ACTOR, Message } from './components/MessageItem';
 import UserInput from './components/UserInput';
+import { translateMagnitude, translateScore } from './utils';
 
 enum APPSTATE {
   REDDIT,
@@ -41,7 +42,6 @@ function App() {
 
   useEffect(() => {
     const reddit = async (query?: string) => {
-      console.log(query)
       const redditResponse = await fetch(`/api/reddit?query=${query}`, {
         headers : { 
           'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ function App() {
       })
       const redditData: RedditData = await redditResponse.json()
       setRedditData(redditData)
-      const message = { text: `Here's an image we found! What do you think?`, 
+      const message = { text: 'We found an image. What do you think?', 
                         image: redditData.imageUrl, 
                         subreddit: redditData.subreddit, 
                         link: redditData.link,
@@ -66,9 +66,7 @@ function App() {
          }
       })
       const storySentimentResponse: Sentiment = await storySentiment.json()
-      // console.log(storyResponse)
       setSentimentData((prevData: any) => ({ ...prevData, storySentiment: storySentimentResponse }))
-      // setSentimentData((prevData) =/)
     
       const commentSentiment = await fetch(`/api/google_sentiment?query=${redditData?.comments}`, {
         headers : { 
@@ -80,28 +78,29 @@ function App() {
       const commentSentimentResponse: Sentiment = await commentSentiment.json()
       setSentimentData((prevData: any) => ({ ...prevData, commentSentiment: commentSentimentResponse }))
 
-      // console.log(sentimentData)
+      const showImage = () => {
+        return (
+          <a href={`www.reddit.com/${redditData?.subreddit}`}>here</a>
+        )
+      }
 
-      const message = { text: `It looks like you felt this image was <sentiment: ${storySentimentResponse.score}>\n
-      The interwebs felt that the image was <sentiment: ${commentSentimentResponse.score}>`, actor: ACTOR.COMPUTER }
+      const message = {
+        // This image was from a post titled "What a nice watch" on r/watches.
+        text: `It looks like you felt this image was ${translateMagnitude(storySentimentResponse.magnitude)} ${translateScore(storySentimentResponse.score)}. The post's commenters found it ${translateMagnitude(commentSentimentResponse.score)} ${translateScore(commentSentimentResponse.score)}. Read the post ${showImage()}.`, actor: ACTOR.COMPUTER
+      }
       setMessages(prevData => [...prevData, message])
     }
 
-    console.log(`before branching: ${appState}`)
-    console.log(`with query: ${query}`)
     if (appState === APPSTATE.REDDIT && query) {
       const userInputMessage: Message = { text: query!, actor: ACTOR.USER }
       setMessages(prevData => [...prevData, userInputMessage])
       reddit(query)
       setAppState(APPSTATE.SENTIMENT)
     } else if (appState === APPSTATE.SENTIMENT){
-      console.log(query)
       const userInputMessage: Message = { text: query!, actor: ACTOR.USER }
       setMessages(prevData => [...prevData, userInputMessage])
       getSentiments(query)
       setAppState(APPSTATE.REDDIT)
-    } else {
-      console.log("we did nothing")
     }
   }, [query])
 

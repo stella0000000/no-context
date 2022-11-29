@@ -10,7 +10,7 @@ interface ChatboxProps {
 const Wrapper = styled.div`
   padding: 10px;
   overflow: scroll;
-  height: calc(100vh - 125px);
+  height: calc(100vh - 105px);
 `
 
 const Chatbox: React.FC<ChatboxProps> = (props: ChatboxProps) => {
