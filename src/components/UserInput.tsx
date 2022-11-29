@@ -33,10 +33,11 @@ const Button = styled.button`
   border-radius: 5px;
   margin-left: 10px;
   width: 100px;
+  text-align: center;
 
   @media screen and (max-width: 768px) {
     font-size: 17px;
-    width: 75px;
+    width: 90px;
   }
 `
 
@@ -44,12 +45,9 @@ interface UserInputProps {
   setQuery: (query?: string) => void
 }
 
-
-
 const UserInput: React.FC<UserInputProps> = ({
   setQuery
 }: UserInputProps) => {
-
   const [inputValue, setInputValue] = useState<string | undefined>(undefined)
 
   const handleKeyPress = (event: React.KeyboardEvent) => {

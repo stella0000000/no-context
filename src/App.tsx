@@ -85,7 +85,6 @@ function App() {
       }
 
       const message = {
-        // This image was from a post titled "What a nice watch" on r/watches.
         text: `It looks like you felt this image was ${translateMagnitude(storySentimentResponse.magnitude)} ${translateScore(storySentimentResponse.score)}. The post's commenters found it ${translateMagnitude(commentSentimentResponse.score)} ${translateScore(commentSentimentResponse.score)}. Read the post ${showImage()}.`, actor: ACTOR.COMPUTER
       }
       setMessages(prevData => [...prevData, message])

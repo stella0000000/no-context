@@ -1,15 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Fragment+Mono:ital@0;1&display=swap');
 
-
 * {
   background: black;
   color: white;
   font-family: 'Fragment Mono', monospace;
-
 }
 
 .App {
-  font-size: 27px;
+  font-size: 25px;
   width: 100vw;
   background: black;
   color: white;

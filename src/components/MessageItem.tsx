@@ -22,6 +22,10 @@ interface MessageProps {
 
 const Image = styled.img`
   width: 400px;
+
+  @media screen and (max-width: 768px) {
+    width: 300px;
+  }
 `
 
 const Wrapper = styled.div<{actor: ACTOR}>`
