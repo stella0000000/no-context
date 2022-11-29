@@ -87,14 +87,25 @@ function App() {
 
       // check that we actually got sentiments, else we set message to communicate error
       if (Object.keys(commentSentimentResponse).length === 0 || Object.keys(storySentimentResponse).length === 0) {
-        const message = { text: "Could not analyze text. Please try again later.", 
-                          actor: ACTOR.COMPUTER }
+        const message = {
+          text: "Could not analyze text. Please try again later.", 
+          actor: ACTOR.COMPUTER
+        }
         setMessages(prevData => [...prevData, message])
       } else {
-        const message = { text: `It looks like you felt this image was ${translateMagnitude(storySentimentResponse.magnitude)} ${translateScore(storySentimentResponse.score)}. The post's commenters found it ${translateMagnitude(commentSentimentResponse.score)} ${translateScore(commentSentimentResponse.score)}. `,
-        link: redditData?.link,
-        actor: ACTOR.COMPUTER, }
+        const message = {
+          text: `It looks like you felt this image was ${translateMagnitude(storySentimentResponse.magnitude)} ${translateScore(storySentimentResponse.score)}. The post's commenters found it ${translateMagnitude(commentSentimentResponse.score)} ${translateScore(commentSentimentResponse.score)}. `,
+          link: redditData?.link,
+          actor: ACTOR.COMPUTER
+        }
         setMessages(prevData => [...prevData, message])
+        const nextMessage = {
+          text: `What else are you wondering about?`,
+          actor: ACTOR.COMPUTER
+        }
+        setTimeout(() => {
+          setMessages(prevData => [...prevData, nextMessage])
+        }, 7000)
         setAppState(APPSTATE.REDDIT)
       }
     }

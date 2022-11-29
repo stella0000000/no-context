@@ -66,16 +66,16 @@ const MessageItem: React.FC<MessageProps> = (props: MessageProps) => {
 
   // wait for computer to finish typing before rendering image
   useEffect(() => {
-    setInterval(() => {
+    setTimeout(() => {
       setImageDisplayed(false);
     }, 3000);
-  }, []);
+  }, [message.image]);
 
   useEffect(() => {
-    setInterval(() => {
+    setTimeout(() => {
       setLinkDisplayed(false);
     }, 6000);
-  }, []);
+  }, [message.link]);
 
   return (
     <Wrapper actor={message.actor}>
@@ -84,13 +84,16 @@ const MessageItem: React.FC<MessageProps> = (props: MessageProps) => {
         {message.image && !imageDisplayed
         ? (
           <>
-            <br/>
+            <br />
             <Image src={message.image} width={400} />
           </>
           )
         : null}
         {message.link && !linkDisplayed ? (
-          <a href={`https://reddit.com/${message?.link}`} target="_blank" rel="noreferrer">View post here.</a>
+          <>
+            <a href={`https://reddit.com/${message?.link}`} target="_blank" rel="noreferrer">View post here.</a>
+            <br />
+          </>
         ) : null}
       </Container>
     </Wrapper>
