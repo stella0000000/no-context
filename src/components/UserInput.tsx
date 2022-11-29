@@ -23,7 +23,7 @@ const Input = styled.input`
 
   @media screen and (max-width: 768px) {
     font-size: 20px;
-    width: calc(100vw - 145px);
+    width: calc(100vw - 140px);
   }
 `
 
