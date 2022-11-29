@@ -23,7 +23,7 @@ const Input = styled.input`
 
   @media screen and (max-width: 768px) {
     font-size: 20px;
-    width: calc(100vw - 150px);
+    width: calc(100vw - 145px);
   }
 `
 
@@ -33,11 +33,11 @@ const Button = styled.button`
   border-radius: 5px;
   margin-left: 10px;
   width: 100px;
-  text-align: center;
 
   @media screen and (max-width: 768px) {
     font-size: 17px;
-    width: 90px;
+    width: 85px;
+    padding: 0;
   }
 `
 
