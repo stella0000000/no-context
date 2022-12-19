@@ -15,7 +15,7 @@ No Context is an experimental site. It invites users to enter a search to find a
 - Styled Components
 - This Express app was structured to be hosted on serverless Vercel.
 
-Future considerations
+## Future considerations
 - Replace Reddit API with Flickr?
 - Play with `filter: blur()`?
 
