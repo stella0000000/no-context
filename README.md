@@ -17,6 +17,7 @@ No Context is an experimental site. It invites users to enter a search to find a
 
 Future considerations
 - Replace Reddit API with Flickr?
+- Play with `filter: blur()`?
 
 ```
 Built with Martin Grym.
