@@ -57,7 +57,7 @@ function App() {
         setRedditData(redditData)
 
         // check that we actually got an image, else we return an error
-        const message = { text: `We found an image. How do you feel about this image?`, 
+        const message = { text: `We found an image. What do you see?`, 
                           image: redditData.imageUrl, 
                           actor: ACTOR.COMPUTER }
         setMessages(prevData => [...prevData, message])
