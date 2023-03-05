@@ -15,6 +15,44 @@ No Context is an experimental site inviting users to enter a search. The Reddit 
 - Styled Components
 - This Express app was structured to be hosted on serverless Vercel.
 
+## Functionalities
+- Numeric sentiment scores / magnitudes are translated to human friendly words.
+```javascript
+enum SentimentTranslation {
+  POSITIVE = 'positive',
+  NEUTRAL = 'neutral',
+  NEGATIVE = 'negative',
+  MARGINALLY = 'marginally',
+  MODERATELY = 'moderately',
+  EXCEPTIONALLY = 'exceptionally'
+}
+
+// translate numeric sentiment score
+export const translateScore = (score: number) => {
+  const negative = score < 0
+  const positive = score > 0
+  if (positive) {
+    return 'positive 🙂'
+  } else if (negative) {
+    return 'negative 🙁'
+  } else {
+    return 'neutral 😐'
+  }
+}
+
+// translate numeric sentiment magnitude
+export const translateMagnitude = (magnitude: number) => {
+  // 0 <= magnitude <= 1
+  if (magnitude >= 0 && magnitude <=0.25 ) {
+    return 'marginally'
+  } else if (magnitude >= 0.75) {
+    return 'very'
+  } else {
+    return 'moderately'
+  }
+}
+```
+
 ## Future considerations
 - Replace Reddit API with Flickr?
 - Play with `filter: blur()`?
