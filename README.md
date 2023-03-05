@@ -58,5 +58,5 @@ export const translateMagnitude = (magnitude: number) => {
 - Play with `filter: blur()`?
 
 ```
-Built with Martin Grym.
+Joyfully built with Martin Grym.
 ```
