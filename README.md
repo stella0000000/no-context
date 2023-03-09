@@ -54,7 +54,7 @@ export const translateMagnitude = (magnitude: number) => {
 ```
 
 ## Future considerations
-- Replace Reddit API with Flickr?
+- Replace Reddit API with Stable Diffusion? Guess that prompt!
 - Play with `filter: blur()`?
 
 ```
