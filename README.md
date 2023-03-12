@@ -24,7 +24,7 @@ enum SentimentTranslation {
   NEGATIVE = 'negative',
   MARGINALLY = 'marginally',
   MODERATELY = 'moderately',
-  EXCEPTIONALLY = 'exceptionally'
+  VERY = 'very'
 }
 
 // translate numeric sentiment score
@@ -32,11 +32,11 @@ export const translateScore = (score: number) => {
   const negative = score < 0
   const positive = score > 0
   if (positive) {
-    return 'positive 🙂'
+    return SentimentTranslation.POSITIVE + ' 🙂'
   } else if (negative) {
-    return 'negative 🙁'
+    return SentimentTranslation.NEGATIVE + ' 🙁'
   } else {
-    return 'neutral 😐'
+    return SentimentTranslation.NEUTRAL + ' 😐'
   }
 }
 
@@ -44,11 +44,11 @@ export const translateScore = (score: number) => {
 export const translateMagnitude = (magnitude: number) => {
   // 0 <= magnitude <= 1
   if (magnitude >= 0 && magnitude <=0.25 ) {
-    return 'marginally'
+    return SentimentTranslation.MARGINALLY
   } else if (magnitude >= 0.75) {
-    return 'very'
+    return SentimentTranslation.VERY
   } else {
-    return 'moderately'
+    return SentimentTranslation.MODERATELY
   }
 }
 ```
