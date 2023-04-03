@@ -13,7 +13,6 @@ No Context is an experimental site inviting users to enter a search. The Reddit 
 - Google NLP API
 - Reddit API
 - Styled Components
-- This Express app was structured to be hosted on serverless Vercel.
 
 ## Functionalities
 - Numeric sentiment scores / magnitudes are translated to human friendly words.
